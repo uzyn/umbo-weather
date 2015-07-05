@@ -1,0 +1,16 @@
+[
+  {
+    "label": "Singapore, Singapore",
+    "latitude": 1.3,
+    "longitude": 103.8,
+    "umboID": "XXX",
+    "umboKey": "YYY"
+  }
+  {
+    "label": "New York City, NY, USA",
+    "latitude": 40.7127,
+    "longitude": -74.0059,
+    "umboID": "XXX",
+    "umboKey": "YYY"
+  }
+]
