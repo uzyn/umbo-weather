@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/uzyn/umbo-weather#readme",
   "dependencies": {
-    "forecast.io": "0.0.9"
+    "async": "^1.3.0",
+    "forecast.io": "0.0.9",
+    "request": "^2.58.0"
   }
 }
