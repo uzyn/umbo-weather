@@ -12,5 +12,12 @@
     "longitude": -74.0059,
     "umboID": "XXX",
     "umboKey": "YYY"
+  },
+  {
+    "label": "Sydney, Australia",
+    "latitude": -33.865,
+    "longitude": 151.209444,
+    "umboID": "XXX",
+    "umboKey": "YYY"
   }
 ]
