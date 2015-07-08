@@ -14,32 +14,38 @@ var options = {
   APIKey: process.env.FORECAST_API_KEY
 }
 var umboUrl = process.env.UMBO_URL || 'http://umbo.zynesis.com/';
+var updateInterval = process.env.UPDATE_INTERVAL || 5 * 60 * 1000;
 
 forecast = new Forecast(options);
 
-async.eachLimit(places, 4, function(place, callback) {
-  console.log('Getting forecast for ' + place.label);
-  forecast.get(place.latitude, place.longitude, function(err, res, data) {
-    console.log(place.label + ': ' + data.currently.temperature + 'F');
-    console.log(place.label + ': ' + fToC(data.currently.temperature) + '°C');
+function update() {
+  async.eachLimit(places, 4, function(place, callback) {
+    console.log('Getting forecast for ' + place.label);
+    forecast.get(place.latitude, place.longitude, function(err, res, data) {
+      console.log(place.label + ': ' + data.currently.temperature + 'F');
+      console.log(place.label + ': ' + fToC(data.currently.temperature) + '°C');
 
-    request.post({
-      url: umboUrl + place.umboID,
-      form: {
-        token: place.umboKey,
-        value: fToC(data.currently.temperature)
-      }
-    }, function (err, httpResponse, body) {
-      if (err) {
-        console.log('Error');
+      request.post({
+        url: umboUrl + place.umboID,
+        form: {
+          token: place.umboKey,
+          value: fToC(data.currently.temperature)
+        }
+      }, function (err, httpResponse, body) {
+        if (err) {
+          console.log('Error');
+          console.log(body);
+          return;
+        }
         console.log(body);
-        return;
-      }
-      console.log(body);
-      callback();
+        callback();
+      });
     });
   });
-});
+
+  console.log('Awaiting next update interval in ' + updateInterval + 'ms.');
+  setTimeout('update', updateInterval);
+}
 
 /**
  * Convert Fahrenheit to Celsius
@@ -47,3 +53,5 @@ async.eachLimit(places, 4, function(place, callback) {
 function fToC(f) {
   return ((f - 32) * 5 / 9).toFixed(2);
 }
+
+update();
